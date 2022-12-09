@@ -17,10 +17,15 @@ namespace N2D {
         public:
             N2DRenderer() = delete;
             N2DRenderer(unsigned int _width, unsigned int _height);
-            ~N2DRenderer(void) = delete;
+            ~N2DRenderer(void);
         public:
             void initialize(char* _windowCaption);
             void destroy(void);
+        public:
+            inline SDL_Window* getWindow(void) { return this->m_handle; }
+            inline SDL_Renderer* getRenderer(void) { return this->m_renderer; }
+            inline unsigned int getWidth(void) { return this->m_width; }
+            inline unsigned int getHeight(void) { return this->m_height; }
         private:
             SDL_Window* m_handle;
             SDL_Renderer* m_renderer;

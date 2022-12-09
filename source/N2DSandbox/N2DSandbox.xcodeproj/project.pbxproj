@@ -10,6 +10,7 @@
 		4C8758312943D47700B7816C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C8758302943D47700B7816C /* main.cpp */; };
 		4C8758392943D52D00B7816C /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C8758382943D52D00B7816C /* SDL2.framework */; };
 		4C87583C2943D5A200B7816C /* N2DRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C87583A2943D5A200B7816C /* N2DRenderer.cpp */; };
+		4C8758402943DE1C00B7816C /* N2DApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C87583E2943DE1C00B7816C /* N2DApplication.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,9 @@
 		4C8758382943D52D00B7816C /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		4C87583A2943D5A200B7816C /* N2DRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = N2DRenderer.cpp; sourceTree = "<group>"; };
 		4C87583B2943D5A200B7816C /* N2DRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = N2DRenderer.hpp; sourceTree = "<group>"; };
+		4C87583D2943DD7800B7816C /* N2DSandbox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = N2DSandbox.entitlements; sourceTree = "<group>"; };
+		4C87583E2943DE1C00B7816C /* N2DApplication.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = N2DApplication.cpp; sourceTree = "<group>"; };
+		4C87583F2943DE1C00B7816C /* N2DApplication.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = N2DApplication.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +68,12 @@
 		4C87582F2943D47700B7816C /* N2DSandbox */ = {
 			isa = PBXGroup;
 			children = (
+				4C87583D2943DD7800B7816C /* N2DSandbox.entitlements */,
 				4C8758302943D47700B7816C /* main.cpp */,
 				4C87583A2943D5A200B7816C /* N2DRenderer.cpp */,
 				4C87583B2943D5A200B7816C /* N2DRenderer.hpp */,
+				4C87583E2943DE1C00B7816C /* N2DApplication.cpp */,
+				4C87583F2943DE1C00B7816C /* N2DApplication.hpp */,
 			);
 			path = N2DSandbox;
 			sourceTree = "<group>";
@@ -138,6 +145,7 @@
 			files = (
 				4C8758312943D47700B7816C /* main.cpp in Sources */,
 				4C87583C2943D5A200B7816C /* N2DRenderer.cpp in Sources */,
+				4C8758402943DE1C00B7816C /* N2DApplication.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +264,7 @@
 		4C8758352943D47700B7816C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = N2DSandbox/N2DSandbox.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T6ZL976XZ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -270,6 +279,7 @@
 		4C8758362943D47700B7816C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = N2DSandbox/N2DSandbox.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T6ZL976XZ5;
 				ENABLE_HARDENED_RUNTIME = YES;

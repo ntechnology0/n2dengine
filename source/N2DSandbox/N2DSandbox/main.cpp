@@ -5,10 +5,16 @@
 //  Created by Oussama Jaaouani on 9/12/2022.
 //
 
-# include "N2DRenderer.hpp"
+# include "N2DApplication.hpp"
 
 int main(int argc, const char * argv[]) {
-    const N2D::Graphics::N2DRenderer* renderer = new N2D::Graphics::N2DRenderer(1366, 768);
-    renderer->N2DRenderer::
+    N2D::N2DApplication* app = new N2D::N2DApplication(1366, 768);
+    app->initialize("SDL2 Window");
+    while(!app->isDone()) {
+        app->update();
+        app->input();
+    }
+    app->close();
+    delete app;
     return 0;
 }

@@ -10,8 +10,10 @@
 namespace N2D {
     namespace Graphics {
         N2DRenderer::N2DRenderer(unsigned int _width, unsigned int _height) : m_handle(nullptr), m_width(_width), m_height(_height) {}
-
+        N2DRenderer::~N2DRenderer(void) {}
+    
         void N2DRenderer::initialize(char *_windowCaption) {
+            std::cout << "Initializing window(" << this->m_width << "," << this->m_height << ")" << std::endl;
             this->m_handle = SDL_CreateWindow(_windowCaption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->m_width, this->m_height, SDL_WINDOW_RESIZABLE);
             if (this->m_handle == nullptr) {
                 std::cout << "SDL_CreateWindow failure: " << SDL_GetError() << std::endl;
