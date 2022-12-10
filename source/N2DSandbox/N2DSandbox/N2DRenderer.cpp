@@ -18,11 +18,13 @@ namespace N2D {
                 std::cout << "SDL_CreateWindow failure: " << SDL_GetError() << std::endl;
                 exit(1);
             }
+            
             /* this->m_renderer = SDL_CreateRenderer(this->m_handle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
             if (this->m_renderer == nullptr) {
                 std::cout << "SDL_CreateRenderer failure: " << SDL_GetError() << std::endl;
                 exit(1);
             } */
+            
             this->m_vulkan = new N2DVulkan(this->m_handle, _windowCaption);
             this->m_vulkan->initialize();
         }
@@ -31,6 +33,7 @@ namespace N2D {
             SDL_DestroyWindow(this->m_handle);
             SDL_DestroyRenderer(this->m_renderer);
             this->m_vulkan->destroy();
+            delete this->m_vulkan;
         }
     }
 }

@@ -8,6 +8,7 @@
 #ifndef N2DVulkan_hpp
 #define N2DVulkan_hpp
 
+#include "N2DVulkanDevice.hpp"
 #include "Platform.h"
 
 namespace N2D {
@@ -22,6 +23,7 @@ namespace N2D {
         private:
             SDL_Window* m_window = nullptr;
             VkInstance m_instance = nullptr;
+            N2DVulkanDevice* m_device = nullptr;
             uint32_t m_extensionsCount = 0;
         private:
             std::string_view m_name;

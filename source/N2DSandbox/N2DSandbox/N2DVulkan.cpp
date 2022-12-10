@@ -11,6 +11,7 @@ namespace N2D {
     namespace Graphics {
         N2DVulkan::N2DVulkan(SDL_Window* _window, std::string_view _name) : m_window(_window), m_name(_name) {
             SDL_Vulkan_LoadLibrary(nullptr);
+            this->m_device = new N2DVulkanDevice();
         }
         
         void N2DVulkan::initialize() {
@@ -35,7 +36,7 @@ namespace N2D {
             }
             
             this->m_extensionsCount = extensionCount;
-            for (uint32_t i = 0; i < extensionCount; i++) {
+            for (uint16_t i = 0; i < extensionCount; i++) {
                 this->m_extensions.emplace_back(extensions[i]);
             }
             
@@ -72,12 +73,16 @@ namespace N2D {
                 exit(1);
             }
             
+            this->m_device->initialize(this->m_instance);
+            
             SDL_free(extensions);
         }
     
         void N2DVulkan::destroy() {
+            this->m_device->destroy();
             vkDestroyInstance(this->m_instance, nullptr);
             SDL_Vulkan_UnloadLibrary();
+            SDL_free(this->m_device);
         }
     }
 }

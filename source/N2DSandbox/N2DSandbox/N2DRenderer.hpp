@@ -27,9 +27,9 @@ namespace N2D {
             inline unsigned int getWidth(void) { return this->m_width; }
             inline unsigned int getHeight(void) { return this->m_height; }
         private:
-            SDL_Window* m_handle;
-            SDL_Renderer* m_renderer;
-            N2DVulkan* m_vulkan;
+            SDL_Window* m_handle = nullptr;
+            SDL_Renderer* m_renderer = nullptr;
+            N2DVulkan* m_vulkan = nullptr;
             unsigned int m_width;
             unsigned int m_height;
         };
