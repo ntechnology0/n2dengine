@@ -73,7 +73,7 @@ namespace N2D {
                 exit(1);
             }
             
-            this->m_device->initialize(this->m_instance);
+            this->m_device->initialize(this->m_window, this->m_instance);
             
             SDL_free(extensions);
         }
