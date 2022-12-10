@@ -52,6 +52,18 @@
             ReferencedContainer = "container:N2DSandbox.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "VK_ICD_FILENAMES"
+            value = "/Users/jaaouani/VulkanSDK/1.3.231.1/macOS/share/vulkan/icd.d/MoltenVK_icd.json"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "VK_LAYER_PATH"
+            value = "/Users/jaaouani/VulkanSDK/1.3.231.1/macOS/share/vulkan/explicit_layer.d"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

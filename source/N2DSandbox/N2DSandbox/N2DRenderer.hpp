@@ -8,8 +8,8 @@
 #ifndef N2DRenderer_hpp
 #define N2DRenderer_hpp
 
-# include <SDL2/SDL.h>
-# include <iostream>
+# include "Platform.h"
+# include "N2DVulkan.hpp"
 
 namespace N2D {
     namespace Graphics {
@@ -29,6 +29,7 @@ namespace N2D {
         private:
             SDL_Window* m_handle;
             SDL_Renderer* m_renderer;
+            N2DVulkan* m_vulkan;
             unsigned int m_width;
             unsigned int m_height;
         };
