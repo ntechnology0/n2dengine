@@ -20,9 +20,9 @@ namespace N2D {
             void initialize(void);
             void destroy(void);
         private:
-            SDL_Window* m_window;
-            VkInstance m_instance;
-            uint32_t m_extensionsCount;
+            SDL_Window* m_window = nullptr;
+            VkInstance m_instance = nullptr;
+            uint32_t m_extensionsCount = 0;
         private:
             std::string_view m_name;
             std::vector<const char*> m_extensions = {};

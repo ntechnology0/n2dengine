@@ -13,16 +13,16 @@ namespace N2D {
         N2DRenderer::~N2DRenderer(void) {}
     
         void N2DRenderer::initialize(char *_windowCaption) {
-            this->m_handle = SDL_CreateWindow(_windowCaption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->m_width, this->m_height, SDL_WINDOW_RESIZABLE);
+            this->m_handle = SDL_CreateWindow(_windowCaption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->m_width, this->m_height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_VULKAN);
             if (this->m_handle == nullptr) {
                 std::cout << "SDL_CreateWindow failure: " << SDL_GetError() << std::endl;
                 exit(1);
             }
-            this->m_renderer = SDL_CreateRenderer(this->m_handle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
+            /* this->m_renderer = SDL_CreateRenderer(this->m_handle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
             if (this->m_renderer == nullptr) {
                 std::cout << "SDL_CreateRenderer failure: " << SDL_GetError() << std::endl;
                 exit(1);
-            }
+            } */
             this->m_vulkan = new N2DVulkan(this->m_handle, _windowCaption);
             this->m_vulkan->initialize();
         }

@@ -17,17 +17,29 @@ namespace N2D {
             uint32_t extensionCount;
             const char** extensions = 0;
             
-            SDL_Vulkan_GetInstanceExtensions(this->m_window, &extensionCount, nullptr);
-            extensions = new const char *[extensionCount];
-            SDL_Vulkan_GetInstanceExtensions(this->m_window, &extensionCount, extensions);
-            this->m_extensionsCount = extensionCount;
-            this->m_extensions.resize(extensionCount);
-            
-            while(*extensions != nullptr) {
-                this->m_extensions.push_back(*extensions++);
+            if (this->m_window == nullptr) {
+                std::cout << "SDL2 window parameter null" << std::endl;
+                exit(1);
             }
             
-            const VkApplicationInfo applicationInformation = {
+            if(!SDL_Vulkan_GetInstanceExtensions(this->m_window, &extensionCount, nullptr)) {
+                std::cout << "Failed to get Vulkan Instance Extensions count" << std::endl;
+                exit(1);
+            };
+            
+            extensions = new const char *[extensionCount];
+            if(!SDL_Vulkan_GetInstanceExtensions(this->m_window, &extensionCount, extensions)) {
+                SDL_free(extensions);
+                std::cout << "Failed to get Vulkan Instance Extensions" << std::endl;
+                exit(1);
+            }
+            
+            this->m_extensionsCount = extensionCount;
+            for (uint32_t i = 0; i < extensionCount; i++) {
+                this->m_extensions.emplace_back(extensions[i]);
+            }
+            
+            VkApplicationInfo applicationInformation = {
                 VK_STRUCTURE_TYPE_APPLICATION_INFO,
                 nullptr,
                 this->m_name.data(),
@@ -37,21 +49,30 @@ namespace N2D {
                 VK_API_VERSION_1_0
             };
             
-            const VkInstanceCreateInfo instanceInformation = {
+            VkInstanceCreateInfo instanceInformation = {
                 VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
-                &applicationInformation,
-                0,
                 nullptr,
+                0,
+                &applicationInformation,
                 0,
                 nullptr,
                 extensionCount,
                 extensions
             };
- 
+            
+#           if defined(__N2D_APPLE__)
+            this->m_extensions.emplace_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+            instanceInformation.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+            instanceInformation.ppEnabledExtensionNames = this->m_extensions.data();
+            instanceInformation.enabledExtensionCount = (uint32_t) this->m_extensions.size();
+#           endif
+
             if(vkCreateInstance(&instanceInformation, nullptr, &this->m_instance) != VK_SUCCESS) {
-                std::cout << "Failed to create Vulkan Instance" << std::endl;
+                SDL_free(extensions);
                 exit(1);
             }
+            
+            SDL_free(extensions);
         }
     
         void N2DVulkan::destroy() {

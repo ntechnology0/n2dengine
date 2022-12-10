@@ -7,9 +7,9 @@
 
 # include "N2DApplication.hpp"
 
-int main(int argc, const char * argv[]) {
+int main() {
     N2D::N2DApplication* app = new N2D::N2DApplication(1366, 768);
-    app->initialize("SDL2 Window");
+    app->initialize(C_STR(SDL2 Window));
     while(!app->isDone()) {
         app->update();
         app->input();
