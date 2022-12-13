@@ -24,6 +24,11 @@ namespace N2D {
                 exit(1);
             }
             
+            if(SDL_Vulkan_CreateSurface(_window, this->m_instance, &this->m_surface) == SDL_FALSE) {
+                std::cout  << "Failed to create Vulkan Surface KHR" << std::endl;
+                exit(1);
+            }
+            
             for (const VkPhysicalDevice& device: this->m_physicalDevices) {
                 if (this->isPhysicalDeviceSuitable(device)) {
                     this->m_pickedPhysicalDevice = device;
@@ -36,23 +41,28 @@ namespace N2D {
                 exit(1);
             }
             
-            // -- creating one queue for one queue family
-            VkDeviceQueueCreateInfo queueCreateInfo = {
-                VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
-                nullptr,
-                0,
+            std::set<uint32_t> uniqueQueueFamilies = {
                 this->m_queueFamilyIndices.m_pickedQueueFamily.value(),
-                1,
-                &queuePriority
+                this->m_queueFamilyIndices.m_pickedPresentFamily.value()
             };
+            
+            for (uint32_t queueFamily: uniqueQueueFamilies) {
+                VkDeviceQueueCreateInfo _queueCreateInfo {};
+                _queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+                _queueCreateInfo.queueFamilyIndex = queueFamily;
+                _queueCreateInfo.queueCount = 1;
+                _queueCreateInfo.pQueuePriorities = &queuePriority;
+                this->m_queueCreateInfos.push_back(_queueCreateInfo);
+            }
             
             VkDeviceCreateInfo deviceCreateInfo = {
                 VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
                 nullptr,
                 0,
-                1,
-                &queueCreateInfo,
+                static_cast<uint32_t>(this->m_queueCreateInfos.size()),
+                this->m_queueCreateInfos.data(),
             };
+            
             deviceCreateInfo.enabledLayerCount = 0;
             deviceCreateInfo.pEnabledFeatures = &this->m_pickedPhysicalDeviceFeatures;
             
@@ -60,6 +70,9 @@ namespace N2D {
                 std::cout  << "Failed to create Vulkan Device" << std::endl;
                 exit(1);
             }
+            
+            vkGetDeviceQueue(this->m_device, this->m_queueFamilyIndices.m_pickedQueueFamily.value(), 0, &this->m_graphicsQueue);
+            vkGetDeviceQueue(this->m_device, this->m_queueFamilyIndices.m_pickedPresentFamily.value(), 0, &this->m_presentQueue);
         }
     
         void N2DVulkanDevice::destroy() {
@@ -70,6 +83,7 @@ namespace N2D {
         bool N2DVulkanDevice::isPhysicalDeviceSuitable(VkPhysicalDevice _device) {
             uint32_t queueFamilyCount = 0;
             uint32_t index = 0;
+            VkBool32 isPresentQueueSupported = false;
             
             VkPhysicalDeviceProperties deviceProperties;
             VkPhysicalDeviceFeatures deviceFeatures;
@@ -84,9 +98,9 @@ namespace N2D {
             this->m_queueFamilyIndices.m_queueFamilyCount = queueFamilyCount;
             
             for (const VkQueueFamilyProperties& queueFamily: this->m_queueFamilyIndices.m_queueFamilies) {
-                if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-                    this->m_queueFamilyIndices.m_pickedQueueFamily = index;
-                }
+                vkGetPhysicalDeviceSurfaceSupportKHR(_device, index, this->m_surface, &isPresentQueueSupported);
+                if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) { this->m_queueFamilyIndices.m_pickedQueueFamily = index; }
+                if (isPresentQueueSupported) { this->m_queueFamilyIndices.m_pickedPresentFamily = index; }
                 index++;
             }
             

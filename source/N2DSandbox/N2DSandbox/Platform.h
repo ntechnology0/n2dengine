@@ -16,6 +16,7 @@
 # include <iostream>
 # include <string>
 # include <optional>
+# include <set>
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define C_STR(s) (char*)#s

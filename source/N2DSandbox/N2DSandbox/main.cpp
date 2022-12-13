@@ -9,7 +9,7 @@
 
 int main() {
     N2D::N2DApplication* app = new N2D::N2DApplication(1366, 768);
-    app->initialize(C_STR(SDL2 Window));
+    app->initialize(C_STR(SDL2 Window with Vulkan));
     while(!app->isDone()) {
         app->update();
         app->input();
